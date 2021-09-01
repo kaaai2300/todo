@@ -5,9 +5,8 @@ const $clearButton = document.getElementById('clear-plan')
  * 予定の追加処理
  */
 $addPlan.addEventListener('click', (e) => {
-  // 入力値を取得
+  // テキストフィールドの入力値を取得
   const $plan = document.getElementById('js-plan')
-  console.log($plan.value);
 
   if ($plan.value) {
     setPlanList($plan);
@@ -34,12 +33,46 @@ $clearButton.addEventListener('click', (e) => {
 const setPlanList = ($plan) => {
   // リストに追加
   let $planList = document.getElementsByTagName('ul')[0];
-	let $planItem = document.createElement("li");
-	$planItem.textContent = $plan.value;
-  $planItem.classList = "list-group-item plan"
-	$planList.appendChild($planItem);
+	let planItem = new element("li");
+  let planCheckBox = new element("input");
+  let planContent = new element("span");
+
+  planItem.addClass("list-group-item plan");
+  planCheckBox.addType("checkbox");
+  planContent.addClass("ps-3");
+  planContent.addTextContent($plan.value);
+  planItem.addChild(planCheckBox.getElement());
+  planItem.addChild(planContent.getElement());
+	$planList.appendChild(planItem.getElement());
   
   // 入力値の初期化
   $plan.value = '';
 
+}
+
+class element {
+  
+  constructor(tagName) {
+    this.element = document.createElement(tagName);
+  }
+
+  getElement () {
+    return this.element;
+  }
+  
+  addClass (className) {
+    this.element.classList = className;
+  }
+
+  addTextContent (text) {
+    this.element.textContent = text;
+  }
+
+  addChild (child) {
+    this.element.appendChild(child);
+  }
+
+  addType (type) {
+    this.element.type = type;
+  }
 }
